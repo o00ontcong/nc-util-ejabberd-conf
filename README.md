@@ -1,0 +1,1 @@
+# nc-util-ejabberd-conf
