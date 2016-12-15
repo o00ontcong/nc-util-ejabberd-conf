@@ -237,7 +237,7 @@ listen:
 ## If you want to use a different method,
 ## comment this line and enable the correct ones.
 ##
-auth_method: internal
+auth_method: sql
 
 ##
 ## Store the plain passwords or hashed for SCRAM:
@@ -331,14 +331,14 @@ auth_method: internal
 ##
 ## MySQL server:
 ##
-## sql_type: mysql
-## sql_server: "server"
-## sql_database: "database"
-## sql_username: "username"
-## sql_password: "password"
+sql_type: mysql
+sql_server: "localhost"
+sql_database: "ejabberd"
+sql_username: "ejabberd"
+sql_password: "password"
 ##
 ## If you want to specify the port:
-## sql_port: 1234
+sql_port: 3306
 
 ##
 ## PostgreSQL server:
@@ -485,7 +485,7 @@ shaper_rules:
 access_rules:
   ## This rule allows access only for local users:
   local:
-    - allow: local
+    - allow: trusted_network
   ## Only non-blocked users can use c2s connections:
   c2s:
     - deny: blocked
@@ -498,10 +498,10 @@ access_rules:
     - allow: admin
   ## Only accounts of the local ejabberd server can create rooms:
   muc_create:
-    - allow: local
+    - allow: trusted_network
   ## Only accounts on the local ejabberd server can create Pubsub nodes:
   pubsub_createnode:
-    - allow: local
+    - allow: trusted_network
   ## In-band registration allows registration of any possible username.
   ## To disable in-band registration, replace 'allow' with 'deny'.
   register:
