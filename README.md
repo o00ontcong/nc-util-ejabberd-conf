@@ -6,8 +6,7 @@ alias xmpp.start='/home/nhancao/Softs/ejabberd-16.12.beta1/bin/start'
 alias xmpp.stop='/home/nhancao/Softs/ejabberd-16.12.beta1/bin/stop'
 
 ---------------------------------------------------------------
-Setup mysql database:
-
+##Setup mysql database:
 https://docs.ejabberd.im/admin/guide/databases/mysql/
 
 ```
@@ -40,9 +39,18 @@ ejabberdctl register "testuser" "localhost" "passw0rd"
 ```
 
 
+##Setup rest api
+https://docs.ejabberd.im/developer/ejabberd-api/oauth
 
+###Use api with basic auth
 
+POST http://localhost:7011/api/get_roster
+Authorization: Basic YWRtaW5AbG9jYWwuYmVlc2lnaHRzb2Z0LmNvbToxMjMzMjE=
+Content-Type: application/json
+{}
 
+where: 
+Authorization: Basic <userJid>:<password>
 
-
-
+if you want use more command, you must add it to config 
+add_commands:

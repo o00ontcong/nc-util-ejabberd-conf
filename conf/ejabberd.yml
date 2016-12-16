@@ -160,15 +160,15 @@ listen:
   ##
   ## To handle XML-RPC requests that provide admin credentials:
   ##
-  ## - 
-  ##   port: 4560
-  ##   module: ejabberd_xmlrpc
-  ##   maxsessions: 10
-  ##   timeout: 5000
-  ##   access_commands:
-  ##     admin:
-  ##       commands: all
-  ##       options: []
+   # - 
+   #   port: 4560
+   #   module: ejabberd_xmlrpc
+   #   maxsessions: 10
+   #   timeout: 5000
+   #   access_commands:
+   #     admin:
+   #       commands: all
+   #       options: []
   - 
     port: 7010
     module: ejabberd_http
@@ -179,6 +179,17 @@ listen:
     http_bind: true
     ## register: true
     captcha: false
+  
+  -
+    port: 7011
+    module: ejabberd_http
+    request_handlers:
+      "/log": mod_log_http
+      "/api": mod_http_api
+    web_admin: true
+    http_bind: true
+    captcha: true
+
 
 ###.  ==================
 ###'  S2S GLOBAL OPTIONS
@@ -321,6 +332,9 @@ auth_method: sql
 
 ###.  ==============
 ###'  DATABASE SETUP
+
+##Setup db_type: sql for each module or use default_db: sql for all module
+default_db: sql
 
 ## ejabberd by default uses the internal Mnesia database,
 ## so you do not necessarily need this section.
@@ -573,9 +587,6 @@ language: "en"
 ## Modules enabled in all ejabberd virtual hosts.
 ##
 
-##Setup db_type: sql for each module or use default_db: sql for all module
-default_db: sql
-
 modules:
   mod_adhoc: {}
   mod_admin_extra: {}
@@ -693,3 +704,19 @@ allow_contrib_modules: true
 ### mode: yaml
 ### End:
 ### vim: set filetype=yaml tabstop=8 foldmarker=###',###. foldmethod=marker:
+
+#REST API EXTRA SETUP
+api_permissions:
+  - who: all
+  - what:
+    - "*"
+    - "!stop"
+    - "!start"
+
+commands_admin_access: configure
+commands:
+  add_commands:
+    - send_message
+    - status
+    - get_roster
+    - register
