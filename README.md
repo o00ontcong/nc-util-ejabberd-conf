@@ -1,10 +1,24 @@
 # nc-util-ejabberd-conf
-Bash alias:
+Download: https://www.ejabberd.im/
+Installation: https://docs.ejabberd.im/admin/installation/
+```
+Note: username for login is <name>@<hostname>
+```
+Open ejabberd server to public:
+https://www.ejabberd.im/node/17509
 
+Ejabberd config file in 
+```
+<ejabberd installation dir>/conf/ejabberd.yml
+```
+
+
+Bash alias:
+```bash
 export PATH=${PATH}:/home/nhancao/Softs/ejabberd-16.12.beta1/bin
 alias xmpp.start='/home/nhancao/Softs/ejabberd-16.12.beta1/bin/start'
 alias xmpp.stop='/home/nhancao/Softs/ejabberd-16.12.beta1/bin/stop'
-
+```
 ---------------------------------------------------------------
 ##Setup mysql database:
 https://docs.ejabberd.im/admin/guide/databases/mysql/
@@ -50,7 +64,8 @@ Content-Type: application/json
 {}
 
 where: 
-Authorization: Basic <userJid>:<password>
+```
+Authorization: Basic base64(<userJid>:<password>)
+```
 
-if you want use more command, you must add it to config 
-add_commands:
+if you want use more command, you must add it to "add_commands" section in config file
