@@ -57,12 +57,12 @@ ejabberdctl register "testuser" "localhost" "passw0rd"
 https://docs.ejabberd.im/developer/ejabberd-api/
 
 ###Use api with basic auth
-
+```rest
 POST http://localhost:7011/api/get_roster
 Authorization: Basic YWRtaW5AbG9jYWwuYmVlc2lnaHRzb2Z0LmNvbToxMjMzMjE=
 Content-Type: application/json
 {}
-
+```
 where: 
 ```
 Authorization: Basic base64(<userJid>:<password>)
