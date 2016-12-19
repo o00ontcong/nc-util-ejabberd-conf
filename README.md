@@ -1,6 +1,10 @@
 # nc-util-ejabberd-conf
 Download: https://www.ejabberd.im/
+
+Protocols: https://www.process-one.net/en/ejabberd/protocols/
+
 Installation: https://docs.ejabberd.im/admin/installation/
+
 ```
 Note: username for login is <name>@<hostname>
 ```
