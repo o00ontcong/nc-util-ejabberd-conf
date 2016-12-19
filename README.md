@@ -40,7 +40,7 @@ ejabberdctl register "testuser" "localhost" "passw0rd"
 
 
 ##Setup rest api
-https://docs.ejabberd.im/developer/ejabberd-api/oauth
+https://docs.ejabberd.im/developer/ejabberd-api/
 
 ###Use api with basic auth
 
