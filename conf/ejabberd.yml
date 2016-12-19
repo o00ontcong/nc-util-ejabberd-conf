@@ -720,3 +720,5 @@ commands:
     - status
     - get_roster
     - register
+    - check_account
+    - get_offline_count
