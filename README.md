@@ -60,6 +60,12 @@ ejabberdctl register "testuser" "localhost" "passw0rd"
 ##Setup rest api
 https://docs.ejabberd.im/developer/ejabberd-api/
 
+*Note with v16.12.beta1*
+```
+Database / Back-ends for OAuth tokens
+Currently, OAuth tokens are stored in Mnesia database. In a future release, we plan to support multiple token backends.
+```
+
 ###Use api with basic auth
 ```rest
 POST http://localhost:7011/api/get_roster
