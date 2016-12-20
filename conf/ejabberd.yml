@@ -423,6 +423,7 @@ acl:
   ##
   admin:
     user:
+      - "admin@local.beesightsoft.com"
       - "admin@nhancao"
       - "admin"
 
@@ -512,7 +513,11 @@ access_rules:
     - allow: admin
   ## Only accounts of the local ejabberd server can create rooms:
   muc_create:
-    - allow: trusted_network
+    - allow
+  muc_admin:
+    - allow: admin
+  muc:
+    - allow
   ## Only accounts on the local ejabberd server can create Pubsub nodes:
   pubsub_createnode:
     - allow: trusted_network
@@ -610,15 +615,13 @@ modules:
     default: always
   mod_muc:
     ## host: "conference.@HOST@"
-    access:
-      - allow
-    access_admin:
-      - allow: admin
+    access: muc
+    access_admin: muc_admin
     access_create: muc_create
     access_persistent: muc_create
     default_room_options:
         mam: true
-  mod_muc_admin: {}
+  ## mod_muc_admin: {}
   ## mod_muc_log: {}
   ## mod_multicast: {}
   mod_offline:
