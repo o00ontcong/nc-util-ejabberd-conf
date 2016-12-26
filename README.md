@@ -79,3 +79,69 @@ Authorization: Basic base64(<userJid>:<password>)
 ```
 
 if you want use more command, you must add it to "add_commands" section in config file
+
+
+####Extra function
+- Last message: 
++ Create table
+
+```sql
+--
+-- Table structure for table `last_message`
+--
+
+CREATE TABLE `last_message` (
+  `username` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `peer` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `txt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `last_message`
+  ADD PRIMARY KEY (`username`,`peer`);
+```
+
++ Create new trigger in archive table by run sql command with content below:
+
+```sql
+//before insert trigger
+
+DELIMITER $$
+CREATE TRIGGER `update_last_message` BEFORE INSERT ON `archive`
+FOR EACH ROW 
+BEGIN
+	SET @NEW_PEER = SUBSTRING_INDEX(NEW.peer, '@', 1);
+	SET @COUNT = (SELECT COUNT(*) FROM last_message WHERE username = NEW.username AND peer = @NEW_PEER);
+    IF @COUNT = 0 THEN
+        INSERT INTO last_message (username, peer, txt) VALUES (NEW.username, @NEW_PEER, NEW.txt); 
+    ELSE
+    	UPDATE last_message SET txt = NEW.txt WHERE (username = NEW.username AND peer = @NEW_PEER);
+    END IF;
+END
+$$
+DELIMITER ;
+```
+
+```sql
+//after delete trigger
+
+DELIMITER $$
+CREATE TRIGGER `delete_last_message` AFTER DELETE ON `archive`
+FOR EACH ROW 
+BEGIN
+	SET @NEW_PEER = SUBSTRING_INDEX(OLD.peer, '@', 1);
+	SET @COUNT = (SELECT COUNT(*) FROM last_message WHERE username = OLD.username AND peer = @NEW_PEER);
+    IF @COUNT > 0 THEN
+        DELETE FROM `last_message` WHERE (username = OLD.username AND peer = @NEW_PEER);
+    END IF;
+END
+$$
+DELIMITER ;
+```
+
+
+
+
+
+
