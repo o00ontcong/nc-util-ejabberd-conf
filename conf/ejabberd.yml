@@ -70,7 +70,7 @@ log_rate_limit: 100
 ## accounts.
 ##
 ## watchdog_admins:
-##   - "admin@nhancao"
+##   - "admin@local.beesightsoft.com"
 
 ###.  ===============
 ###'  NODE PARAMETERS
@@ -94,7 +94,6 @@ log_rate_limit: 100
 ##   - "example.org"
 ##
 hosts:
-  - "nhancao"
   - "local.beesightsoft.com"
 
 ##
@@ -115,7 +114,7 @@ listen:
   - 
     port: 7008
     module: ejabberd_c2s
-    certfile: "/home/nhancao/Softs/ejabberd-16.12.beta1/conf/server.pem"
+    certfile: "/home/nhancao/Softs/ejabberd-16.12/conf/server.pem"
     starttls: true
     ## To enforce TLS encryption for client connections,
     ## use this instead of the "starttls" option:
@@ -160,15 +159,15 @@ listen:
   ##
   ## To handle XML-RPC requests that provide admin credentials:
   ##
-   # - 
-   #   port: 4560
-   #   module: ejabberd_xmlrpc
-   #   maxsessions: 10
-   #   timeout: 5000
-   #   access_commands:
-   #     admin:
-   #       commands: all
-   #       options: []
+  ## - 
+  ##   port: 4560
+  ##   module: ejabberd_xmlrpc
+  ##   maxsessions: 10
+  ##   timeout: 5000
+  ##   access_commands:
+  ##     admin:
+  ##       commands: all
+  ##       options: []
   - 
     port: 7010
     module: ejabberd_http
@@ -190,7 +189,6 @@ listen:
     http_bind: true
     captcha: true
 
-
 ###.  ==================
 ###'  S2S GLOBAL OPTIONS
 
@@ -204,7 +202,7 @@ listen:
 ##
 ## s2s_certfile: Specify a certificate file.
 ##
-## s2s_certfile: "/home/nhancao/Softs/ejabberd-16.12.beta1/conf/server.pem"
+## s2s_certfile: "/home/nhancao/Softs/ejabberd-16.12/conf/server.pem"
 
 ## Custom OpenSSL options
 ##
@@ -217,9 +215,9 @@ listen:
 ##
 ## host_config:
 ##   "example.org":
-##     domain_certfile: "/home/nhancao/Softs/ejabberd-16.12.beta1/conf/example_org.pem"
+##     domain_certfile: "/home/nhancao/Softs/ejabberd-16.12/conf/example_org.pem"
 ##   "example.com":
-##     domain_certfile: "/home/nhancao/Softs/ejabberd-16.12.beta1/conf/example_com.pem"
+##     domain_certfile: "/home/nhancao/Softs/ejabberd-16.12/conf/example_com.pem"
 
 ##
 ## S2S whitelist or blacklist
@@ -248,7 +246,7 @@ listen:
 ## If you want to use a different method,
 ## comment this line and enable the correct ones.
 ##
-## auth_method: internal
+auth_method: sql
 
 ##
 ## Store the plain passwords or hashed for SCRAM:
@@ -269,7 +267,7 @@ listen:
 ## Authentication using SQL
 ## Remember to setup a database in the next section.
 ##
-auth_method: sql
+## auth_method: sql
 
 ##
 ## Authentication using PAM
@@ -332,7 +330,6 @@ auth_method: sql
 
 ###.  ==============
 ###'  DATABASE SETUP
-
 ##Setup db_type: sql for each module or use default_db: sql for all module
 default_db: sql
 
@@ -350,9 +347,6 @@ sql_server: "localhost"
 sql_database: "ejabberd"
 sql_username: "ejabberd"
 sql_password: "password"
-##
-## If you want to specify the port:
-sql_port: 3306
 
 ##
 ## PostgreSQL server:
@@ -375,7 +369,7 @@ sql_port: 3306
 ## SQLite:
 ##
 ## sql_type: sqlite
-## sql_database: "/home/nhancao/Softs/ejabberd-16.12.beta1/database/ejabberd.db"
+## sql_database: "/home/nhancao/Softs/ejabberd-16.12/database/ejabberd.db"
 
 ##
 ## ODBC compatible or MSSQL server:
@@ -424,8 +418,6 @@ acl:
   admin:
     user:
       - "admin@local.beesightsoft.com"
-      - "admin@nhancao"
-      - "admin"
 
   ##
   ## Blocked users
@@ -500,7 +492,7 @@ shaper_rules:
 access_rules:
   ## This rule allows access only for local users:
   local:
-    - allow: trusted_network
+    - allow: local
   ## Only non-blocked users can use c2s connections:
   c2s:
     - deny: blocked
@@ -513,11 +505,7 @@ access_rules:
     - allow: admin
   ## Only accounts of the local ejabberd server can create rooms:
   muc_create:
-    - allow
-  muc_admin:
-    - allow: admin
-  muc:
-    - allow
+    - allow: trusted_network
   ## Only accounts on the local ejabberd server can create Pubsub nodes:
   pubsub_createnode:
     - allow: trusted_network
@@ -573,12 +561,12 @@ language: "en"
 ##
 ## Full path to a script that generates the image.
 ##
-## captcha_cmd: "/home/nhancao/Softs/ejabberd-16.12.beta1/lib/ejabberd-16.12.beta1/priv/bin/captcha.sh"
+## captcha_cmd: "/home/nhancao/Softs/ejabberd-16.12/lib/ejabberd-16.12/priv/bin/captcha.sh"
 
 ##
 ## Host for the URL and port where ejabberd listens for CAPTCHA requests.
 ##
-## captcha_host: "nhancao:7010"
+## captcha_host: "local.beesightsoft.com:5280"
 
 ##
 ## Limit CAPTCHA calls per minute for JID/IP to avoid DoS.
@@ -591,7 +579,6 @@ language: "en"
 ##
 ## Modules enabled in all ejabberd virtual hosts.
 ##
-
 modules:
   mod_adhoc: {}
   mod_admin_extra: {}
@@ -607,7 +594,7 @@ modules:
   mod_http_bind: {}
   ## mod_http_fileserver:
   ##   docroot: "/var/www"
-  ##   accesslog: "/home/nhancao/Softs/ejabberd-16.12.beta1/logs/access.log"
+  ##   accesslog: "/home/nhancao/Softs/ejabberd-16.12/logs/access.log"
   ## mod_irc: {}
   mod_last: {}
   mod_mam:
@@ -615,15 +602,17 @@ modules:
     default: always
   mod_muc:
     ## host: "conference.@HOST@"
-    access: muc
-    access_admin: muc_admin
+    access:
+      - allow
+    access_admin:
+      - allow: admin
     access_create: muc_create
     access_persistent: muc_create
     default_room_options:
         mam: true
   mod_muc_admin: {}
-  mod_muc_log: {}
-  mod_multicast: {}
+  ## mod_muc_log: {}
+  ## mod_multicast: {}
   mod_offline:
     access_max_user_messages: max_user_offline_messages
   mod_ping: {}
@@ -708,13 +697,6 @@ allow_contrib_modules: true
 ### End:
 ### vim: set filetype=yaml tabstop=8 foldmarker=###',###. foldmethod=marker:
 
-#REST API EXTRA SETUP
-api_permissions:
-  - who: all
-  - what:
-    - "*"
-    - "!stop"
-    - "!start"
 
 commands_admin_access: configure
 commands:
@@ -725,3 +707,5 @@ commands:
     - register
     - check_account
     - get_offline_count
+
+

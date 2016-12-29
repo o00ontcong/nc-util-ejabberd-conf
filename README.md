@@ -140,6 +140,13 @@ $$
 DELIMITER ;
 ```
 
+Error:
+{error,access_rules_unauthorized}
+when run ejabberdctl
+
+-> fix:
+remove api_permissions block or re-edit permission
+
 
 
 
