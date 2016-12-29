@@ -347,6 +347,7 @@ sql_server: "localhost"
 sql_database: "ejabberd"
 sql_username: "ejabberd"
 sql_password: "password"
+sql_port: 3306
 
 ##
 ## PostgreSQL server:
@@ -580,6 +581,7 @@ language: "en"
 ## Modules enabled in all ejabberd virtual hosts.
 ##
 modules:
+  mod_helloword: {}
   mod_adhoc: {}
   mod_admin_extra: {}
   mod_announce: # recommends mod_adhoc
