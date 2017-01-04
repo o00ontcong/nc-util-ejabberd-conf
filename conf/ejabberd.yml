@@ -581,7 +581,7 @@ language: "en"
 ## Modules enabled in all ejabberd virtual hosts.
 ##
 modules:
-  mod_offline_push: {}
+  mod_znotification: {}
   mod_adhoc: {}
   mod_admin_extra: {}
   mod_announce: # recommends mod_adhoc
