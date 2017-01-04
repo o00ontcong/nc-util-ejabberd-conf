@@ -105,7 +105,7 @@ ALTER TABLE `last_message`
 + Create new trigger in archive table by run sql command with content below:
 
 ```sql
-//before insert trigger
+-- before insert trigger
 
 DELIMITER $$
 CREATE TRIGGER `update_last_message` BEFORE INSERT ON `archive`
@@ -121,10 +121,8 @@ BEGIN
 END
 $$
 DELIMITER ;
-```
 
-```sql
-//after delete trigger
+-- after delete trigger
 
 DELIMITER $$
 CREATE TRIGGER `delete_last_message` AFTER DELETE ON `archive`
@@ -139,6 +137,60 @@ END
 $$
 DELIMITER ;
 ```
+
+---
+
+Option trigger for `last_spool`
+
+```sql
+--
+-- Table structure for table `last_spool`
+--
+
+CREATE TABLE `last_spool` (
+  `username` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `txt` blob NOT NULL,
+  `seq` bigint(20) UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `last_spool`
+  ADD PRIMARY KEY (`username`);
+
+
+-- before insert trigger
+
+DELIMITER $$
+CREATE TRIGGER `update_last_spool` BEFORE INSERT ON `spool`
+FOR EACH ROW 
+BEGIN
+    SET @COUNT = (SELECT COUNT(*) FROM last_spool WHERE username = NEW.username);
+    IF @COUNT = 0 THEN
+        INSERT INTO last_spool (username, txt, seq, created_at) VALUES (NEW.username, NEW.xml, NEW.seq, NEW.created_at); 
+    ELSE
+        UPDATE last_spool SET txt = NEW.xml, seq = NEW.seq, created_at = NEW.created_at WHERE (username = NEW.username);
+    END IF;
+END
+$$
+DELIMITER ;
+
+
+-- after delete trigger
+
+DELIMITER $$
+CREATE TRIGGER `delete_last_spool` AFTER DELETE ON `spool`
+FOR EACH ROW 
+BEGIN
+    SET @COUNT = (SELECT COUNT(*) FROM last_spool WHERE username = OLD.username);
+    IF @COUNT > 0 THEN
+        DELETE FROM `last_spool` WHERE (username = OLD.username);
+    END IF;
+END
+$$
+DELIMITER ;
+```
+
+
 
 Error:
 {error,access_rules_unauthorized}
